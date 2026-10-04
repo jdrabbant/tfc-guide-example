@@ -19,4 +19,27 @@ python3 -m http.server 8000
 - The contact form validates input in the browser but does not send messages yet.
   Connect the submit handler in `script.js` to a form backend (an API endpoint,
   Formspree, AWS Lambda, etc.) before going live.
-- The site can be hosted on any static host (S3 + CloudFront, GitHub Pages, Netlify).
+
+## Hosting (GitHub Pages)
+
+`.github/workflows/pages.yml` deploys this folder to GitHub Pages on every push to
+`master` that touches `website/` (it can also be run manually from the Actions tab).
+
+One-time setup:
+
+1. **Settings → Pages → Build and deployment → Source:** choose **GitHub Actions**.
+2. **Settings → Pages → Custom domain:** enter `cloudproserv.com` and save.
+3. In **Wix → Domains → cloudproserv.com → Manage DNS Records**, set:
+
+   | Type  | Host                | Value                    |
+   |-------|---------------------|--------------------------|
+   | A     | cloudproserv.com    | 185.199.108.153          |
+   | A     | cloudproserv.com    | 185.199.109.153          |
+   | A     | cloudproserv.com    | 185.199.110.153          |
+   | A     | cloudproserv.com    | 185.199.111.153          |
+   | CNAME | www                 | jdrabbant.github.io      |
+
+   Remove any other A or CNAME records for the root and `www` (for example ones
+   pointing at Wix).
+4. Once DNS has propagated and GitHub shows the domain check passing, tick
+   **Enforce HTTPS** on the Pages settings page.
